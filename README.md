@@ -9,7 +9,8 @@
 1. Create a new repo in the Cygni organization. Call it cygni-talent-[name]
 1. 
 
-Clone this repo: ```bash 
+Clone this repo: 
+```bash 
 git clone https://github.com/cygni/template-talent-session.git
 ```
 1. Copy the contents to
