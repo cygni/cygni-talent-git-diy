@@ -12,7 +12,8 @@ This is a template that is to be used when creating new sessions for the talent 
 ```bash 
 git clone https://github.com/cygni/template-talent-session.git
 ```
-1. ```bash
+1. Change directory
+```bash
 cd template-talent-session
 ```
 1. Mirror-push to your new repository:
