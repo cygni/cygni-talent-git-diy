@@ -1,6 +1,7 @@
 # Template project for talent sessions
 
 ## Background
+This is a template that is to be used when creating new sessions for the talent program.
 
 ## Prerequisites
 * A text-editor, preferably with MarkDown support. 
