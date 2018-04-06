@@ -8,19 +8,19 @@ This is a template that is to be used when creating new sessions for the talent 
 
 ## Instructions
 1. Create a new repo in the Cygni organization (If you don't have access/rights to do this ask Jakob or Emil). Call it cygni-talent-[name]
-1. Clone this repo: 
+2. Clone this repo: 
 ```bash 
 git clone https://github.com/cygni/template-talent-session.git
 ```
-1. Change directory
+3. Change directory
 ```bash
 cd template-talent-session
 ```
-1. Mirror-push to your new repository:
+4. Mirror-push to your new repository:
 ```bash
 git push --mirror cygni-talent-[name]
 ```
-1. Clone your new repo: 
+5. Clone your new repo: 
 ```bash 
 git clone https://github.com/cygni/template-talent-[name].git
 ```

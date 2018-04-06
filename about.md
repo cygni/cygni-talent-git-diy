@@ -15,7 +15,7 @@ A README.md should always be present and contain the following headings:
 ## Project layout
 
 ### /presentation
-We recommend using [reveal.js](https://revealjs.com/#/) for presentations. Reveal.js is an *HTML based presentation framework* and we have prepared a template to use. 
+We recommend using [reveal.js](https://revealjs.com/#/) for presentations. Reveal.js is an *HTML based presentation framework* and we have prepared a template to use. Place the presentation in this folder. 
 
 ### /exercises
 Place instructions/code-samples and exercises to do here. 
