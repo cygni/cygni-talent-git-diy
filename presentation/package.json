@@ -1,0 +1,29 @@
+{
+  "name": "talang-slide-template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "watches": {
+    "sass": [
+      "style/*.scss"
+    ]
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sass": "node-sass ./style/ -o ./assets/css/",
+    "build": "mkdir -p target && inliner --nocompress --inlinemin index.html > target/${PWD##*/}.html",
+    "build-all": "npm run sass && npm run build",
+    "watch": "rerun-script"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "inliner": "^1.13.1",
+    "reveal.js": "^3.6.0"
+  },
+  "devDependencies": {
+    "node-sass": "^4.7.2",
+    "rerun-script": "^0.6.0",
+    "standalone-html": "^0.2.2"
+  }
+}

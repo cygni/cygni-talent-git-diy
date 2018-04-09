@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <title>Cygni :: Talangprogrammet</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <link rel="stylesheet" type="text/css" href="node_modules/reveal.js/css/reveal.css">
+  <link rel="stylesheet" type="text/css" href="node_modules/reveal.js/lib/css/zenburn.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/cygni.css">
+</head>
+<body>
+  <div class="reveal">
+
+    <img id="cygni-logo" 
+         src="./assets/img/cygni.png"
+         style="width:9em; margin: 1.7em .03em; transform: rotate(-25deg); opacity: 0.15;"/>
+
+    <div class="slides">
+
+      <section id="title">
+        <h1>Titel på övningen</h1>
+        <h4>Undertitel</h4>
+        <p style="opacity: 0.15;">Talangprogrammet 2018</p>
+      </section> 
+
+      <section id="agenda">
+        <h2>Agenda</h2> 
+
+        <ul>
+          <li>Reveal.js</li> 
+          <li>Hur man gör en presentation</li>
+        </ul>
+
+      </section>
+
+      <section>
+        <section id="motivation">
+          <h2>Reveal.js - motivation</h2>
+          <p>Reveal.js är ett javascript-bibliotek som gör det enkelt att producera snygga presentationer i ren HMTL.
+          Fördelen med ren HTML är att den är self contained, går att köra offline, maila eller publicera på webben.</p>
+          <p class="fragment">Vi kan även versionhantera presentationen på samma sätt som vi gör med övrig kod vi skriver.</p>
+          <p class="fragment">Dessutom är det så klart roligare att koda sin presentation ;)</p>
+        </section>
+
+        <section id="template">
+          <h2>Reveal.js - mall</h2>
+          <p>Det dokument du läser just nu fungerar även som en mall för Talangprogrammets presentationer.</p>
+          <p>Förhoppningen är att det ska vara lätt att komma igång att snabbt producera en presentation av hög kvalitet som Talangprogrammets deltagare känner igen.</p>
+        </section>
+
+      </section>
+
+    <section>        
+      <section id="howto-intro">
+        <h2>Att göra en presentation med Reveal</h2>
+        <p>Nedan följer ett antal sektioner för att som syftar till att snabbt komma igång och göra presentationer med Reaveal.</p>
+      </section>
+
+      <section id="howto-agenda">
+        <h2>Vi kommer att gå igenom hur man</h2>
+        <ul>
+          <li class="fragment">strukturerar presentationen</li>
+          <li class="fragment">länkar in bilder</li>
+          <li class="fragment">presenterar kod</li>
+          <li class="fragment">gör enklare animeringar</li>
+        </ul>
+        <p class="fragment">För den som vill fördjupa sig ytterligare i Reveal så finns det en bra demo <a href="https://revealjs.com/#/">här</a>.</p>
+      </section>
+
+      <section id="howto-structure">
+        <h2>Presentationens struktur</h2>
+        <p>Om man tittar i hörnet längst ner till höger så ser man att det finns fyra pilar som hänvisar till hur sidan navigeras. Hur navigeringen fungerar styrs av hur man strukturerar sidan med elementet <code>&lt;section/&gt;</code>. </p>
+        <p><code>&lt;section/&gt;</code> på första nivån navigeras åt höger.</p>
+        <p><code>&lt;section/&gt;</code> på andra nivån navigeras nedåt.</p> 
+      </section>
+
+      <section id="howto-img">
+        <h2>Bilder</h2>
+        <p>Bilder länkas in som vanligt i HTML, dvs genom att använda elementet <code>&lt;img/&gt;</code>.</p>
+        <p class="fragment">Placera bilderna under katalogen <code>assets</code> så kommer det att kompileras in som Base64 och presentationen blir helt self contained.</p>
+      </section>
+
+      <section id="howto-code">
+        <h2>Kod</h2>
+        <p>Reveal kommer färdigt med <a href="https://highlightjs.org/">highlight.js</a> och <a href="https://github.com/colinta/zenburn">zenburn.css</a>.</p>
+        <pre class="hljs javascript" data-trim="">
+        <code>
+          var msg = document.querySelector('h1');
+          msg.textContent = "Hello, World!";</code>
+        </pre>
+      </section>
+
+      </section>
+    </div>
+  </div>
+  <script src="node_modules/reveal.js/lib/js/head.min.js"></script>
+  <script src="node_modules/reveal.js/js/reveal.js"></script>"
+  <script src="node_modules/reveal.js/plugin/notes/notes.js"></script>
+  <script src="node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+  <script>
+      hljs.initHighlightingOnLoad();
+  </script>
+  <script>
+    Reveal.initialize({
+      history: true,
+      keyboard: {
+        86: "togglePause"
+      }
+    });
+  </script>
+</body>
+</html>
+
