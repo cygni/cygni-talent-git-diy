@@ -18,7 +18,7 @@ cd template-talent-session
 ```
 4. Mirror-push to your new repository:
 ```bash
-git push --mirror cygni-talent-[name]
+git push --mirror https://github.com/cygni/cygni-talent-[name]
 ```
 5. Clone your new repo: 
 ```bash 
