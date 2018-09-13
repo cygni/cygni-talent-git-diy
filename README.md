@@ -3,9 +3,13 @@ I den här övningen kommer vi att återskapa gits fundamentala funktionalitet.
 
 ## Quickstart
 ```sh
-# clone:a repo:t
+# clone:a ner det här repo:t
+git clone https://github.com/cygni/cygni-talent-git-diy
+# clone:a pytt-repo:t
 git clone https://github.com/mbark/pytt
 cd pytt
+# applicera patch:en som sätter koden i rätt läge
+git apply ../0001-pass.patch
 # installera alla dependencies
 pipenv install
 # aktivera ett shell med alla dependencies installerade
@@ -73,4 +77,4 @@ Om ni kör fast:
 [10.2](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects) och
 [10.3](https://git-scm.com/book/en/v2/Git-Internals-Git-References) om det finns
 hjälp att få;
-4. Fråga om hjälp eller kolla facit (dvs master-branchen).
+4. Fråga om hjälp eller kolla facit (dvs git diff:en pga patch:en).
