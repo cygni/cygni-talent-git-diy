@@ -2,6 +2,8 @@
 I den här övningen kommer vi att återskapa gits fundamentala funktionalitet.
 
 ## Quickstart
+Börja med att installera [pipenv](https://github.com/pypa/pipenv).
+
 ```sh
 # clone:a ner det här repo:t
 git clone git@github.com:cygni/cygni-talent-git-diy.git
