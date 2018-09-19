@@ -9,7 +9,7 @@ git clone https://github.com/cygni/cygni-talent-git-diy
 git clone https://github.com/mbark/pytt
 cd pytt
 # applicera patch:en som sätter koden i rätt läge
-git apply ../0001-pass.patch
+git apply ../cygni-talent-git-diy/0001-pass.patch
 # installera alla dependencies
 pipenv install
 # aktivera ett shell med alla dependencies installerade
