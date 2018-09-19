@@ -4,9 +4,9 @@ I den här övningen kommer vi att återskapa gits fundamentala funktionalitet.
 ## Quickstart
 ```sh
 # clone:a ner det här repo:t
-git clone https://github.com/cygni/cygni-talent-git-diy
+git clone git@github.com:cygni/cygni-talent-git-diy.git
 # clone:a pytt-repo:t
-git clone https://github.com/mbark/pytt
+git clone git@github.com:mbark/pytt.git
 cd pytt
 # applicera patch:en som sätter koden i rätt läge
 git apply ../cygni-talent-git-diy/0001-pass.patch
