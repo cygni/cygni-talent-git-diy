@@ -1,113 +1,90 @@
-From 2a0fdeefc4ed485fc3480e9426c32bf8f3b50c49 Mon Sep 17 00:00:00 2001
+From 98dc23fce66e4379837cff7b6e3da2a31bfd0dc2 Mon Sep 17 00:00:00 2001
 From: Martin Barksten <martin.barksten@gmail.com>
-Date: Thu, 13 Sep 2018 15:11:46 +0200
-Subject: [PATCH] pass
+Date: Wed, 26 Sep 2018 12:47:16 +0200
+Subject: [PATCH] tmp
 
 ---
- pytt/pytt.py | 72 +++++-------------------------------------------------------
- 1 file changed, 6 insertions(+), 66 deletions(-)
+ pytt/pytt.py | 50 ++++++--------------------------------------------
+ 1 file changed, 6 insertions(+), 44 deletions(-)
 
 diff --git a/pytt/pytt.py b/pytt/pytt.py
-index 5d665bf..f5d5bd6 100755
+index b133a54..66a4508 100755
 --- a/pytt/pytt.py
 +++ b/pytt/pytt.py
-@@ -61,37 +61,7 @@ def cat_file(obj):
-     This implementation assumes the -p flag is passed, i.e. it always pretty
-     prints the object.
+@@ -97,69 +97,31 @@ def hash_object(data: bytes, write: bool = False, object_type: str = "blob") ->
+     write -- if true also saves the object to the corresponding file.
+     object_type -- blob, tree or commit 
      """
--    with open(_object_path(obj), 'rb') as f:
--        content = zlib.decompress(f.read())
+-    header = "%s %d" % (object_type, len(data))
+-    content = b"%s\0%s" % (header.encode(), data)
 -
--    [header, data] = content.split(b'\0', 1)
+-    sha = hashlib.sha1(content)
+-    print(sha.hexdigest())
 -
--    if header.startswith(b'blob'):
--        try:
--            print(data.decode())
--        except UnicodeDecodeError:
--            log.debug('Unable to decode, printing as is')
--            print(data)
--    elif header.startswith(b'tree'):
--        tree_object = Tree.from_string(data)
--        for entry in tree_object.entries:
--            mode = entry.mode.decode()
--            if mode == '40000':
--                mode = '0' + mode
--                object_type = 'tree'
--            else:
--                object_type = 'blob'
+-    if write:
+-        path = _object_path(sha.hexdigest(), resolve=False)
+-        _ensure_directory(path)
 -
--            print('%s %s %s\t%s' % (
--                mode, object_type, entry.sha1, entry.name.decode()))
--    elif header.startswith(b'commit'):
--        commit_object = Commit.from_string(data)
--        print('tree %s' % commit_object.tree.decode())
--        for parent in commit_object.parents:
--            print('parent %s' % parent.decode())
--        print('author %s' % commit_object.author)
--        print('committer %s' % commit_object.committer)
--        print('\n%s' % commit_object.message.decode())
+-        with open(path, "wb") as f:
+-            f.write(zlib.compress(content))
 +    pass
  
  
- def hash_object(data, write=False, object_type='blob'):
-@@ -119,54 +89,24 @@ def hash_object(data, write=False, object_type='blob'):
- 
- def ls_files():
+ def ls_files() -> None:
      """List all files in the index."""
 -    idx = _index()
 -    for _, entry in idx.entries.items():
--        # why the -1? Well the mode type is 1000, 1010 or 1100 and
--        # permissions 0755 or 0644 so git decides to cut a 0 when
--        # concatenating them.
--        mode = '%s%s' % (bin(entry.mode_type)[
--                         2:-1], oct(entry.mode_permissions)[2:])
--        print('%s %s %s\t%s' % (
--            mode, entry.sha1, entry.stage_flag, entry.name))
+-        print(entry)
 +    pass
  
  
- def update_index(mode, sha, filename):
+ def update_index(mode: str, sha: str, filename: str) -> None:
      """Add the object (blob or tree) to the index with the mode and name."""
 -    idx = _index()
 -
--    idx.append(Index.Entry(new=True,
--                           mode=mode,
--                           sha=_resolve_object_sha(sha),
--                           filename=filename))
+-    idx.append(Index.Entry.create_new(
+-        mode, _resolve_object_sha(sha), filename))
 -
--    packed = idx.pack()
--    with open(_git_path('index'), 'wb') as f:
--        f.write(packed)
+-    with open(_git_path("index"), "wb") as f:
+-        f.write(idx.pack())
 +    pass
  
  
- def write_tree():
-     """Write the index to a git tree."""
+ def write_tree() -> None:
+     """Read the current index and create a new Tree object.
+ 
+     For all entries in the index convert them to a tree entry and store in the new tree."""
 -    idx = _index()
 -
 -    tree_entries = []
 -    for _, entry in idx.entries.items():
--        tree_entries.append(Tree.Entry(mode_type=entry.mode_type,
--                                       mode_permissions=entry.mode_permissions, sha=entry.sha1, name=entry.name))
+-        tree_entries.append(
+-            Tree.Entry(
+-                mode_type=entry.mode_type,
+-                mode_permissions=entry.mode_permissions,
+-                sha=entry.sha,
+-                name=entry.name,
+-            )
+-        )
 -
 -    tree_object = Tree(tree_entries)
--    hash_object(tree_object.pack(), write=True, object_type='tree')
+-    hash_object(tree_object.pack(), write=True, object_type="tree")
 +    pass
  
  
- def commit_tree(tree, message, parent=None):
-     """Create a commit for the tree."""
+ def commit_tree(tree: str, message: str, parent: str = None) -> None:
+     """With the given tree, message and optionally parent create a new commit object and save it."""
 -    tree = _resolve_object_sha(tree)
 -    parent = _resolve_object_sha(parent)
 -    c = Commit.create(tree, message, parent)
--    hash_object(c.pack(), write=True, object_type='commit')
+-    hash_object(c.pack(), write=True, object_type="commit")
 +    pass
  
  
- def update_ref(ref, sha):
+ def update_ref(ref: str, sha: str) -> None:
      """Update the ref to the given sha."""
 -    sha = _resolve_object_sha(sha)
--    with open(_git_path(ref), 'w') as f:
+-    with open(_git_path(ref), "w") as f:
 -        f.write(sha)
 +    pass
 -- 
