@@ -1,8 +1,17 @@
-# Git: do it yourself
+# git: do it yourself
+
 I den här övningen kommer vi att återskapa gits fundamentala funktionalitet.
 
-## Quickstart
-Börja med att installera [pipenv](https://github.com/pypa/pipenv).
+## läs före:
+
+* gitboken kapitel [10.1-10.3](https://git-scm.com/book/en/v2/Git-Internals-Plumbing-and-Porcelain).
+
+## prerequisites
+
+* `python3.7`;
+* [pipenv](https://github.com/pypa/pipenv).
+
+## quickstart
 
 ```sh
 # clone:a ner det här repo:t
@@ -20,63 +29,117 @@ pipenv shell
 pytt --help
 ```
 
-## what to do
-Ni ska köra igenom filerna `part{1,2,3}.sh` (`part2.sh` gör inga
-ändringar i repo:t) och då avsluta med en `git log` som ser ut
-som följer: 
-```bash
-$ git log
-commit e6a5d58581a1e5116bf9a1c0cab3a6d1934967db (HEAD -> master)
-Author: Foo Bar <foo.bar@email.com>
-Date:   Tue Jul 17 17:07:35 2018 +0200
+## mål
 
-    Oops! Wrong dude, this is the real one!
-
-commit 5b9765189979ceb9eb81762e510f6f4efcfff139
-Author: Martin Barksten <martin.barksten@gmail.com>
-Date:   Thu Apr 7 22:13:13 2005 +0200
-
-    Add legit quote by e = mc2 dude
-```
-
-De funktioner som ni behöver implementera (i ordning) är:
-- `hash-object` (som är färdigimplementerad för att ge en liten headstart);
-- `cat-file`;
-- `update-index`;
-- `ls-files`;
-- `write-tree`;
-- `commit-tree`;
-- `update-ref`.
-
-I repo:t har jag skrivit en del boilerplate för att ni ska komma igång
-fort -- det som kvarstår är de ovan nämnda funktionerna som alla
-finns i `pytt.py`-filen.
-
-Funktionerna har alla lite dokumentation som i korta drag beskriver vad dem gör,
-utöver detta rekommenderas att ni kollar `git {kommando} --help` eller boken om
-`git` (se [hjälp](#hjälp) nedan).
+* _slutgiltigt_: köra först `create_repo.sh` och sedan `pytt_commit.sh` och då se två commits från `git log`.
+* _delsteg_: implementera följande funktioner i ordning (alla finns i `pytt.py`>):
+* `hash-object` (som är färdigimplementerad för att ge en liten headstart);
+* `cat-file`;
+* `update-index`;
+* `ls-files`;
+* `write-tree`;
+* `commit-tree`;
+* `update-ref`.
 
 ### tester
-Det finns ingen testkod skriver för att verifiera funktionerna istället får ni
-göra det live, dvs testköra mot ett riktigt repo. Det är rekommenderat att ni
-sätter upp ett nytt test-repo som ni kan ta bort om något blir fel.
 
-### object
-Alla tree-, commit- och index-klasserna uppfyller alla följande API:
-- `from_string`: som användas för att från en sträng skapa en instans av
-  klassen;
-- och `pack`: som användas för att packa ihop klassen till en sträng som kan
-  sparas ner.
+Finns ej, göre live.
 
-Objekten har dokumentation som beskriver hur dem ser ut, annars får ni kolla
-vilka fält som sätts om ni behöver komma åt något värde.
+### api
 
-## hjälp
-Om ni kör fast:
-1. Kolla `git {kommando}` för att se vad kommandot ska göra;
-2. Kolla i `object.py` eller `index.py` för att se om dokumentation hjälper;
-3. Kolla i boken om `git` kapitel
-[10.2](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects) och
-[10.3](https://git-scm.com/book/en/v2/Git-Internals-Git-References) om det finns
-hjälp att få;
-4. Fråga om hjälp eller kolla facit (dvs git diff:en pga patch:en).
+`{Tree,Commit}{,.Entry}` uppfyller alla följande api:
+
+* `unpack`: packa upp data från ett git objekt och skapa klassen;
+* och `pack`: packa ihop objektet till data.
+
+## editor
+
+Visual Studio Code med dess officiella Python-plugin rekommenderas.
+
+### setup
+
+1. Installera [Python-plugin:et](https://marketplace.visualstudio.com/items?itemName=ms-python.python);
+2. Klicka `cmd-shift-p` (eller `ctrl-shift-p` för icke-mac), och välj alternativet `Python: Select Interpreter`;
+3. Välj den som heter `Python 3.7.0 (virtualenv)`
+4. Om ni vill kunna köra script med shift-enter från VSCode så lägg till denna keybinding:
+
+```json
+{
+  "key": "shift+enter",
+  "command": "workbench.action.terminal.runSelectedText",
+  "when":
+    "editorFocus && !findInputFocussed && !replaceInputFocussed && editorLangId == 'shellscript'"
+}
+```
+
+## vanliga fel
+
+Här har ni några vanliga fel ni kan stöta på.
+
+### `pipenv shell` skiter sig
+
+Se till att du har följande i `.profile` eller `.zshenv`:
+
+```shell
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+```
+
+### jag vet inte hur man skapar en klass-instans i Python
+
+Om du vill skapa exempelvis ett nytt träd:
+
+```python
+Tree.Entry(
+    entry.name,
+    entry.sha,
+    mode_type=entry.mode_type,
+    mode_permissions=entry.mode_permissions,
+)
+```
+
+### vad fan är `self` i python-metoderna?
+
+En referens till objektet du anropar metoden på och skickas in "av sig själv".
+
+Du anropar alltså exempelvis metoden `pack` i `Tree` på följande sätt:
+
+```python
+instance_of_tree_object.pack()
+```
+
+### men vad är då `cls` i python-metoderna???
+
+En referens till klassen du anropar den statiska klassmetoden på. Det skickas också in "av sig själv".
+
+Du anropar alltså metoden `unpack` i `Tree` på följande sätt:
+
+```python
+Tree.unpack(data)
+```
+
+### `TypeError: %b requires a bytes-like object, or an object that implements __bytes__, not 'str'` (eller något liknande)
+
+Python skiljer på byte-strängar (`bytes`) som är råa och inte har en encoding och strängar (`str`) som har en encoding.
+Ni måste arbeta med en sort åt gången, antingen `bytes` eller `str`.
+
+😭 VA!???
+
+* `bytes -> str`: `some_bytes.decode()` (antar UTF-8 som encoding, vilket ju bör vara rimligt);
+* `str -> bytes` `some_str.encode()`;
+* rå `bytes`-sträng: sätt ett `b` framför ba: `b"our bytes string"`
+* öppna en fil och läs som `str`: `file.open(our_file, 'r')`;
+* öppna fil och läs som `bytes`: `file.open(our_file 'rb')`;
+
+_Tips_:
+
+* om det är text ni håller på med är det ju oftast `str`;
+* om det är någon form av data som kan vara lite vad som helst är det oftast `bytes`.
+
+### vi fattar inte alls vad vi ska göra!??!?!?
+
+Diskutera vad funktionen har för syfte "i det stora hela", dvs vad ska ni åstadkomma.
+
+### vi får något skitkonstigt Python-fel som inte står ovan
+
+Be om hjälp dirr.
